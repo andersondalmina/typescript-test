@@ -1,0 +1,9 @@
+# DotEnv
+.env
+
+#Mac OS Thumb
+.DS_Store
+
+#VSCode
+.vscode
+*.code-workspace
