@@ -1,25 +1,25 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-export interface Transaction extends Document {
-  type: String;
-  description: String;
-  value: Number;
-  date: Date;
+enum TransactionType {
+  Deposit = 1,
+  Withdrawal = 2,
+  Payment = 3,
 }
 
-const TransactionSchema: Schema = new Schema({
-  type: { type: String, required: true },
-  description: { type: String },
-  value: { type: Number, required: true },
-  date: { type: Date, required: true },
-});
+@Entity()
+export default class Transaction {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-export default mongoose.model<Transaction>('Transaction', TransactionSchema);
+  @Column()
+  type: TransactionType;
 
-// class User {
-//   private name: string;
-//   private email: string;
-//   private password: string;
-// }
+  @Column()
+  description: string;
 
-// export default User;
+  @Column('double')
+  value: number;
+
+  @Column()
+  date: Date;
+}
