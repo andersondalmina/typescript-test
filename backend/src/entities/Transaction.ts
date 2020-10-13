@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ObjectID, ObjectIdColumn } from 'typeorm';
+import User from './User';
 
 enum TransactionType {
   Deposit = 1,
@@ -8,8 +9,11 @@ enum TransactionType {
 
 @Entity()
 export default class Transaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  id: ObjectID;
+
+  @ObjectIdColumn()
+  user: ObjectID;
 
   @Column()
   type: TransactionType;
@@ -22,4 +26,31 @@ export default class Transaction {
 
   @Column()
   date: Date;
+
+  static newDeposit(user: User): Transaction {
+    let deposit = new this();
+    deposit.user = user.id;
+    deposit.type = TransactionType.Deposit;
+    deposit.date = new Date();
+
+    return deposit;
+  }
+
+  static newWithdrawal(user: User): Transaction {
+    let withdrawal = new this();
+    withdrawal.user = user.id;
+    withdrawal.type = TransactionType.Withdrawal;
+    withdrawal.date = new Date();
+
+    return withdrawal;
+  }
+
+  static newPayment(user: User): Transaction {
+    let payment = new this();
+    payment.user = user.id;
+    payment.type = TransactionType.Payment;
+    payment.date = new Date();
+
+    return payment;
+  }
 }

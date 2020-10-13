@@ -10,21 +10,17 @@ services:
     volumes:
       - ./backend/src:/usr/src/app/src
 
-  redis:
-    image: redis:5
-    ports:
-      - '6379:6379'
-
   mongodb:
     image: mongo:latest
     ports:
       - '27017:27017'
     volumes:
       - mongodb:/data/db
+      - ./backend/devops/mongodb-setup.js:/mongodb-setup.js
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DATABASE_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DATABASE_PASSWORD}
-      - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=test
 
 volumes:
   mongodb:

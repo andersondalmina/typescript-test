@@ -1,0 +1,5 @@
+- Copy `.env.example` to `.env` file and ajust the data.
+- Run `docker-compose build`
+- Run `docker-compose up -d` to start mongodb database and backend service.
+- On mongo container create a database called `test` and then run `mongo -u root -p root --authenticationDatabase admin mongodb-setup.js`
+- To run frontend: `cd frontend` and `yarn install - yarn start`.

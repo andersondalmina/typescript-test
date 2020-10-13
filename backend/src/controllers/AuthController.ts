@@ -18,7 +18,7 @@ class AuthController extends BaseController {
       const { email, password } = req.body;
       const token = await this.authenticateUser.execute(email, password);
 
-      return this.success(res, {token});
+      return this.success(res, { token });
     } catch (err) {
       return this.fail(res, err.toString());
     }

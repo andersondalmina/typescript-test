@@ -11,6 +11,8 @@ RUN yarn install
 # Bundle app source
 COPY . .
 
+# RUN yarn tsc
+
 EXPOSE 8000
 
-CMD ["node", "app.js"]
+CMD [ "yarn", "dev" ]

@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ObjectID, ObjectIdColumn } from 'typeorm';
 
-@Entity("users")
+@Entity('users')
 export default class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  id: ObjectID;
 
   @Column()
   name: string;
@@ -13,4 +13,7 @@ export default class User {
 
   @Column()
   password: string;
+
+  @Column()
+  valueAvailable: number = 0;
 }

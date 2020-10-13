@@ -1,23 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import Container from '../config/container';
+import UserRepository from '../infra/database/UserRepository';
 
-export default function (req: Request, res: Response, next: NextFunction) {
-  if (!req.headers.token) {
-    res
-      .status(401)
-      .json({ auth: false, message: 'Failed to authenticate token.' });
+export default async function (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (!req.headers.authorization) {
+    res.status(401).json({ auth: false, message: 'Falha na autenticação.' });
     return;
   }
 
   try {
-    let token = String(req.headers.token);
+    let token = String(req.headers.authorization.split(' ')[1]);
     const decoded = <any>jwt.verify(token, process.env.JWT_SECRET ?? '');
 
-    res.locals.user = decoded.user;
+    const userRepository: UserRepository = Container.resolve('userRepository');
+    const user = await userRepository.findOne(decoded.user.id);
+
+    if (user == null) {
+      res
+        .status(401)
+        .json({ auth: false, message: 'Falha na autenticação.' });
+    }
+
+    res.locals.user = user;
   } catch (error) {
     res
       .status(401)
-      .json({ auth: false, message: 'Failed to authenticate token.' });
+      .json({ auth: false, message: 'Falha na autenticação.' });
     return;
   }
 

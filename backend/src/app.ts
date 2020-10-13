@@ -1,6 +1,5 @@
-import 'reflect-metadata';
 import express from 'express';
-import cors from "cors";
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import router from './config/router';
 import { createConnection } from 'typeorm';
@@ -12,7 +11,7 @@ createConnection().then((connection: any) => {
   registerRepositories(connection);
 
   const app = express();
-  const port = 8080;
+  const port = 8000;
 
   app.use(cors());
   app.use(bodyParser.urlencoded({ extended: true }));
